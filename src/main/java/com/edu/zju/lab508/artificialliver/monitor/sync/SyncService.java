@@ -24,13 +24,12 @@ public class SyncService {
     @Autowired
     private GuardianMapper guardianMapper;
 
-    public String getSyncData(String surgery_no, String time_stamp) {
+    public String getSyncData(String surgery_no, long time_stamp) {
         SyncResult syncResult = null;
         try {
-            SyncObject syncObject = new SyncObject(surgery_no, time_stamp);
-            List<GuardianData> guardianDatas = guardianMapper.getAfterGuardianDatas(syncObject);
-            List<PressureData> pressureDatas = pressureMapper.getAfterPressureDatas(syncObject);
-            List<PumpSpeedData> pumpSpeedDatas = pumpSpeedMapper.getAfterPumpSpeedDatas(syncObject);
+            List<GuardianData> guardianDatas = guardianMapper.getAfterGuardianDatas(surgery_no, time_stamp);
+            List<PressureData> pressureDatas = pressureMapper.getAfterPressureDatas(surgery_no, time_stamp);
+            List<PumpSpeedData> pumpSpeedDatas = pumpSpeedMapper.getAfterPumpSpeedDatas(surgery_no, time_stamp);
             syncResult = new SyncResult(guardianDatas, pumpSpeedDatas, pressureDatas);
         } catch (Exception e) {
             e.printStackTrace();

@@ -349,7 +349,7 @@ public class Reporter extends Document {
         TimeSeries timeSeries5 = new TimeSeries("血浆压", Second.class);
         TimeSeries timeSeries6 = new TimeSeries("夸膜压", Second.class);
         for (PressureData pressureData : PressureDatas) {
-            Date date = dateFormat.parse(pressureData.time_stamp);
+            Date date = new Date(pressureData.time_stamp);
             Second second = new Second(date);
             timeSeries1.add(second,
                     Double.parseDouble(pressureData.in_blood_pressure));

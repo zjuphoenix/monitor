@@ -18,11 +18,8 @@ public class EcgDataHandler implements DataHandler{
     private DataCenter dataCenter;
     @Resource
     private EcgResolver ecgResolver;
-    @Resource
-    private EcgDataFile ecgDataFile;
     @Override
     public void handle(byte[] data, int length) {
-        ecgDataFile.save(data);
         ECG ecg = (ECG)ecgResolver.resolve(data, length);
         dataCenter.addECG(ecg);
     }

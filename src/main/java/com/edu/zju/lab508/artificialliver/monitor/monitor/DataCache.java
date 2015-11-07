@@ -1,0 +1,50 @@
+package com.edu.zju.lab508.artificialliver.monitor.monitor;
+
+import com.edu.zju.lab508.artificialliver.monitor.monitor.model.data.BloodPressure;
+import com.edu.zju.lab508.artificialliver.monitor.monitor.model.data.ECG;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by Administrator on 2015/11/7.
+ */
+public class DataCache {
+    private LinkedBlockingQueue<ECG> ecgs;
+    private LinkedBlockingQueue<BloodPressure> bloodPressures;
+
+    public DataCache() {
+        ecgs = new LinkedBlockingQueue<>(100);
+        bloodPressures = new LinkedBlockingQueue<>(100);
+    }
+
+    public ECG getECG(){
+        return ecgs.poll();
+    }
+
+    public void addECG(ECG ecg){
+        if (!ecgs.add(ecg)){
+            try {
+                ecgs.poll(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ecgs.add(ecg);
+        }
+    }
+
+    public BloodPressure getBloodPressure(){
+        return bloodPressures.poll();
+    }
+
+    public void addBloodPressure(BloodPressure bloodPressure){
+        if (!bloodPressures.add(bloodPressure)){
+            try {
+                bloodPressures.poll(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            bloodPressures.add(bloodPressure);
+        }
+    }
+}

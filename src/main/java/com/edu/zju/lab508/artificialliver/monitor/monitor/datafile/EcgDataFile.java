@@ -15,15 +15,15 @@ import java.util.Date;
 /**
  * Created by Administrator on 2015/11/5.
  */
-@Component
 public class EcgDataFile implements DataFile{
     private Logger logger = LoggerFactory.getLogger(EcgDataFile.class);
     private MappedByteBuffer out;
+    private String surgery_no;
 
-    @Override
-    public void init() {
+    public EcgDataFile(String surgery_no) {
+        this.surgery_no = surgery_no;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        File file = new File(sdf.format(new Date()));
+        File file = new File(surgery_no+"_ecg_"+sdf.format(new Date()));
         try {
             if (!file.exists()){
                 file.createNewFile();
@@ -39,28 +39,13 @@ public class EcgDataFile implements DataFile{
 
     @Override
     public void save(byte[] data) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date());
-        File file = new File(date);
-        if (!file.exists()){
-            try {
-                file.createNewFile();
-                // 为了以可读可写的方式打开文件，这里使用RandomAccessFile来创建文件。
-                FileChannel fc = new RandomAccessFile(file, "rw").getChannel();
-                //注意，文件通道的可读可写要建立在文件流本身可读写的基础之上
-                out = fc.map(FileChannel.MapMode.READ_WRITE, 0, 4*1024*1024);
-            } catch (IOException e) {
-                logger.error("save ecg data occur io exception", e);
-            }
-        }
-        out.put(date.getBytes());
         out.put(data);
     }
 
     @Override
     public byte[] getCurrentData() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date());
+        String date = surgery_no+"_ecg_"+sdf.format(new Date());
         try {
             RandomAccessFile raf = new RandomAccessFile(date, "rw");
             long pointer = raf.getFilePointer();

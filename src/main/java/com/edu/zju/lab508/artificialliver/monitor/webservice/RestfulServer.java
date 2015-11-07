@@ -57,7 +57,7 @@ public class RestfulServer {
         return null;
     }
     @RequestMapping(value = "/sync")
-    public String getSyncData(@RequestParam("surgery_no") String surgery_no, @RequestParam("time_stamp") String time_stamp){
+    public String getSyncData(@RequestParam("surgery_no") String surgery_no, @RequestParam("time_stamp") long time_stamp){
         return syncService.getSyncData(surgery_no, time_stamp);
     }
 

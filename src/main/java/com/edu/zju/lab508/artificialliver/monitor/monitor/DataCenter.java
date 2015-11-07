@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -15,35 +17,27 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class DataCenter {
-    private LinkedBlockingQueue<ECG> ecgs;
-    private LinkedBlockingQueue<BloodPressure> bloodPressures;
+    private Map<String, DataCache> dataCacheMap = new ConcurrentHashMap<>();
 
-    public DataCenter() {
-        this.ecgs = new LinkedBlockingQueue<>(1000);
-        this.bloodPressures = new LinkedBlockingQueue<>(1000);
+    public void createData(String surgery_no){
+        DataCache dataCache = new DataCache();
+        dataCacheMap.put(surgery_no, dataCache);
     }
 
-    public ECG getECG(){
-        return ecgs.poll();
+    public void close(String surgery_no){
+        dataCacheMap.remove(surgery_no);
     }
 
-    public BloodPressure getBloodPressure(){
-        return bloodPressures.poll();
-    }
-
-    public void addECG(ECG ecg){
-        if (!ecgs.add(ecg)){
-            try {
-                ecgs.poll(1, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            ecgs.add(ecg);
+    public void addECG(String surgery_no,ECG ecg){
+        if (dataCacheMap.containsKey(surgery_no)){
+            dataCacheMap.get(surgery_no).addECG(ecg);
         }
-
     }
 
-    public void addBloodPressure(BloodPressure bloodPressure){
-        bloodPressures.add(bloodPressure);
+    public ECG getECG(String surgery_no){
+        if (dataCacheMap.containsKey(surgery_no)){
+            return dataCacheMap.get(surgery_no).getECG();
+        }
+        return null;
     }
 }
