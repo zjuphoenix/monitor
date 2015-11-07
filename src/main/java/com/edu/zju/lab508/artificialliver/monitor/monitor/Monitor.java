@@ -1,13 +1,9 @@
 package com.edu.zju.lab508.artificialliver.monitor.monitor;
 
-import com.edu.zju.lab508.artificialliver.monitor.monitor.datafile.EcgDataFile;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.listener.DataEventListener;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.listener.DataFrameEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import javax.annotation.Resource;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -26,8 +22,10 @@ public class Monitor {
     private ExecutorService executor;
     private volatile boolean isStop = true;
     private DataEventListener dataEventListener;
+    private String surgery_no;
 
-    public Monitor(String surgery, String host, int port, DataEventListener dataEventListener) throws Exception {
+    public Monitor(String surgery_no, String host, int port, DataEventListener dataEventListener) throws Exception {
+        this.surgery_no = surgery_no;
         this.dataEventListener = dataEventListener;
         //socket = new Socket(env.getProperty("monitor.url"),Integer.parseInt(env.getProperty("monitor.port")));
         socket = new Socket(host, port);
@@ -66,7 +64,7 @@ public class Monitor {
                                 }
                             }
                             bis.read(data, 0, length);
-                            DataFrameEvent dataFrameEvent = new DataFrameEvent(type, length, data);
+                            DataFrameEvent dataFrameEvent = new DataFrameEvent(surgery_no, type, length, data);
                             dataEventListener.onEvent(dataFrameEvent);
                         } else {
                             continue;

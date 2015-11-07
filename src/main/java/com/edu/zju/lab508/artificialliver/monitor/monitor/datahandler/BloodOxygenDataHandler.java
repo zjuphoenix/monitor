@@ -14,7 +14,7 @@ public class BloodOxygenDataHandler implements DataHandler{
     @Resource
     private BloodOxygenResolver bloodOxygenResolver;
     @Override
-    public void handle(byte[] data, int length) {
+    public void handle(String surgery_no, byte[] data, int length) {
         BloodOxygen bloodOxygen = (BloodOxygen)bloodOxygenResolver.resolve(data, length);
     }
 }

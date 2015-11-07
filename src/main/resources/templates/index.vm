@@ -26,7 +26,7 @@
                                 dataType:'json',
                                 timeout:60000,
                                 data:{
-                                    patientId:'123'
+                                    surgery_no:'123'
                                 },
                                 success:function(ecg){
                                     if(!jQuery.isEmptyObject(ecg)){

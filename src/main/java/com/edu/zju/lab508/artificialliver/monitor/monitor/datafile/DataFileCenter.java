@@ -19,4 +19,10 @@ public class DataFileCenter {
     public void stopEcgDataFile(String surgery_no){
         ecgDataFileMap.remove(surgery_no);
     }
+
+    public void writeEcg(String surgery_no, byte[] data){
+        if (ecgDataFileMap.containsKey(surgery_no)) {
+            ecgDataFileMap.get(surgery_no).save(data);
+        }
+    }
 }

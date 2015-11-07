@@ -1,16 +1,9 @@
 package com.edu.zju.lab508.artificialliver.monitor.monitor;
 
-import com.edu.zju.lab508.artificialliver.monitor.monitor.model.data.BloodPressure;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.model.data.ECG;
 import org.springframework.stereotype.Component;
-
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Administrator on 2015/11/4.
@@ -40,4 +33,5 @@ public class DataCenter {
         }
         return null;
     }
+
 }

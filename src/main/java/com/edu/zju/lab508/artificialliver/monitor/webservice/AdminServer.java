@@ -1,5 +1,6 @@
 package com.edu.zju.lab508.artificialliver.monitor.webservice;
 
+import com.edu.zju.lab508.artificialliver.monitor.monitor.DataCenter;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.Monitor;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.MonitorCenter;
 import com.edu.zju.lab508.artificialliver.monitor.monitor.datafile.DataFileCenter;
@@ -20,6 +21,8 @@ public class AdminServer {
     private MonitorCenter monitorCenter;
     @Autowired
     private DataFileCenter dataFileCenter;
+    @Autowired
+    private DataCenter dataCenter;
 
     @RequestMapping("/start")
     public ResponseEntity<String> start(@RequestParam("surgery_no")String surgery_no, @RequestParam("host")String host, @RequestParam("port")int port){
@@ -27,6 +30,7 @@ public class AdminServer {
         try {
             monitorCenter.createMonitor(surgery_no, host, port);
             dataFileCenter.createEcgDataFile(surgery_no);
+            dataCenter.createData(surgery_no);
         } catch (Exception e) {
             return new ResponseEntity("start monitor failed!",HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -37,6 +41,7 @@ public class AdminServer {
         try {
             monitorCenter.stopMonitor(surgery_no);
             dataFileCenter.stopEcgDataFile(surgery_no);
+            dataCenter.close(surgery_no);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -4,11 +4,13 @@ package com.edu.zju.lab508.artificialliver.monitor.monitor.listener;
  * Created by wuhaitao on 2015/5/16.
  */
 public class DataFrameEvent {
+	private String surgery_no;
 	private int type;
 	private int length;
 	private byte[] data;
 
-	public DataFrameEvent(int type, int length, byte[] data) {
+	public DataFrameEvent(String surgery_no, int type, int length, byte[] data) {
+		this.surgery_no = surgery_no;
 		this.type = type;
 		this.length = length;
 		this.data = data;
@@ -34,5 +36,13 @@ public class DataFrameEvent {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public String getSurgery_no() {
+		return surgery_no;
+	}
+
+	public void setSurgery_no(String surgery_no) {
+		this.surgery_no = surgery_no;
 	}
 }

@@ -64,7 +64,7 @@ public class DataEventListener implements EventListener<DataFrameEvent>{
                     info.reservedbit2 = (char) ((data[7]&0xff << 8) + (data[8]&0xff));// 保留位
                     logger.info("心电模块描述         " + "长度:" + dataFrameEvent.getLength());
                 } else if (modelType == 1) {// 模块数据
-                    ecgDataHandler.handle(data, length);
+                    ecgDataHandler.handle(dataFrameEvent.getSurgery_no(), data, length);
                     logger.info("心电模块数据        " + "长度:" + dataFrameEvent.getLength());
                 } else if (modelType == 2) {// 模块状态
                     ECGState ecgState = new ECGState();
@@ -128,7 +128,7 @@ public class DataEventListener implements EventListener<DataFrameEvent>{
                     info.reservedbit2 = (char) ((data[7]&0xff << 8) + (data[8]&0xff));// 保留位
                     logger.info("血压模块描述    " + "长度:" + dataFrameEvent.getLength());
                 } else if (modelType == 1) {// 模块数据
-                    bloodPressureDataHandler.handle(data, length);
+                    bloodPressureDataHandler.handle(dataFrameEvent.getSurgery_no(), data, length);
                     logger.info("血压模块数据    " + "长度:" + dataFrameEvent.getLength());
                 } else if (modelType == 2) {// 模块状态
                     BloodPressureState bloodPressureState = new BloodPressureState();
@@ -161,7 +161,7 @@ public class DataEventListener implements EventListener<DataFrameEvent>{
                     info.reservedbit2 = (char) ((data[7]&0xff << 8) + (data[8]&0xff));// 保留位
                     logger.info("血氧模块描述    " + "长度:" + dataFrameEvent.getLength());
                 } else if (modelType == 1) {// 模块数据
-                    bloodOxygenDataHandler.handle(data, length);
+                    bloodOxygenDataHandler.handle(dataFrameEvent.getSurgery_no(), data, length);
                     logger.info("血氧模块数据    "+"长度:"+dataFrameEvent.getLength());
                 } else if (modelType == 2) {// 模块状态
                     BloodOxygenState bloodOxygenState = new BloodOxygenState();
