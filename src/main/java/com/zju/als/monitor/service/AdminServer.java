@@ -27,12 +27,12 @@ public class AdminServer {
 
     @RequestMapping("/start")
     public ResponseEntity<String> start(@RequestParam("surgery_no")String surgery_no, @RequestParam("host")String host, @RequestParam("port")int port){
-        ResponseEntity<String> entity = new ResponseEntity("success",HttpStatus.ACCEPTED);
         try {
             monitorCenter.createMonitor(surgery_no, host, port);
             dataFileCenter.createEcgDataFile(surgery_no);
             dataCenter.createData(surgery_no);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity("start monitor failed!",HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity("start monitor success!",HttpStatus.OK);
