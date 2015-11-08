@@ -25,6 +25,7 @@ public class EcgDataHandler implements DataHandler{
     @Override
     public void handle(String surgery_no, byte[] data, int length) {
         ECG ecg = (ECG)ecgResolver.resolve(data, length);
+        System.out.println(ecg);
         dataCenter.addECG(surgery_no,ecg);
         dataFileCenter.writeEcg(surgery_no, data);
     }

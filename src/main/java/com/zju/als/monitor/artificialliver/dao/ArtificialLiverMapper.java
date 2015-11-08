@@ -5,13 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Component;
-
 import com.zju.als.monitor.artificialliver.domain.Cumulant;
 import com.zju.als.monitor.artificialliver.domain.LiquidData;
 import com.zju.als.monitor.artificialliver.domain.PressureData;
 import com.zju.als.monitor.artificialliver.domain.PumpSpeedData;
-@Component
 public interface ArtificialLiverMapper {
 	//pressure data
 	 	@Select("SELECT * FROM pressure_data where surgery_no=#{surgery_no} order by time_stamp")

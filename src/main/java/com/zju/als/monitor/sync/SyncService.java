@@ -10,6 +10,7 @@ import com.zju.als.monitor.guardian.domain.GuardianData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,9 +18,9 @@ import java.util.List;
  */
 @Component
 public class SyncService {
-    @Autowired
-    ArtificialLiverMapper artificialLiverMapper;
-    @Autowired
+    @Resource
+    private ArtificialLiverMapper artificialLiverMapper;
+    @Resource
     private GuardianMapper guardianMapper;
 
     public String getSyncData(String surgery_no, long time_stamp) {

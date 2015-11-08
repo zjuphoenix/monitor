@@ -65,14 +65,14 @@ public class RestfulServer {
 
     @RequestMapping(value = "/ecg")
     public ECG ecg(@RequestParam("surgery_no") String surgery_no){
-        /*ECG ecg = new ECG();
+        ECG ecg = new ECG();
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 500; j++) {
                 ecg.ecg[i][j]=(short)random.nextInt(255);
             }
         }
-        return ecg;*/
-        return dataCenter.getECG(surgery_no);
+        return ecg;
+        //return dataCenter.getECG(surgery_no);
     }
 }
