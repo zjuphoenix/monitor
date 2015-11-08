@@ -3,7 +3,8 @@ package com.zju.als.monitor.reporter;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.*;
-import com.zju.als.monitor.artificialliver.dao.ArtificialLiverMapper;
+import com.zju.als.monitor.artificialliver.dao.PressureMapper;
+import com.zju.als.monitor.artificialliver.dao.PumpSpeedMapper;
 import com.zju.als.monitor.artificialliver.domain.Cumulant;
 import com.zju.als.monitor.artificialliver.domain.LiquidData;
 import com.zju.als.monitor.artificialliver.domain.PressureData;
@@ -63,7 +64,9 @@ public class Reporter extends Document {
     List<Scheme> schemes;
 
     @Autowired
-    ArtificialLiverMapper artificialLiverMapper;
+    PumpSpeedMapper pumpSpeedDataMapper;
+    //@Autowired
+    PressureMapper pressureDataMapper;
     @Autowired
     private GuardianMapper guardianMapper;
 
@@ -124,7 +127,7 @@ public class Reporter extends Document {
     }
 
     public void setCumulantParagraph() throws DocumentException, IOException {
-        Cumulant cumulant = artificialLiverMapper.getCumulant(surgeryNo);
+        Cumulant cumulant = pumpSpeedDataMapper.getCumulant(surgeryNo);
 
         PdfPTable t = new PdfPTable(3);
         int headerwidths[] = { 2, 2, 1 }; // percentage
@@ -302,7 +305,7 @@ public class Reporter extends Document {
     }
 
     public void setLiquidParagraph() throws ParseException, IOException,DocumentException {
-        List<LiquidData> liquidDatas = artificialLiverMapper.getLiquidDatas(surgeryNo);
+        List<LiquidData> liquidDatas = pumpSpeedDataMapper.getLiquidDatas(surgeryNo);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         TimeSeriesCollection lineDataset = new TimeSeriesCollection();
         TimeSeries timeSeries1 = new TimeSeries("血液循环量", Second.class);
@@ -342,7 +345,7 @@ public class Reporter extends Document {
     }
 
     public void setPressureParagraph() throws ParseException, IOException,DocumentException {
-        List<PressureData> PressureDatas = artificialLiverMapper.getPressureDatas(surgeryNo);
+        List<PressureData> PressureDatas = pressureDataMapper.getPressureDatas(surgeryNo);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         TimeSeriesCollection lineDataset = new TimeSeriesCollection();
         TimeSeries timeSeries1 = new TimeSeries("采血压", Second.class);

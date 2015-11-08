@@ -31,7 +31,7 @@
                                 success:function(ecg){
                                     if(!jQuery.isEmptyObject(ecg)){
                                         var x = (new Date()).getTime(); // current time
-                                        for(var i=0;i<50;i+=10){
+                                        for(var i=0;i<500;i+=10){
                                             dataX.push(x);
                                             dataY.push(ecg.ecg[0][i]);
                                             //series.addPoint([x, ecg.ecg[0][i]], true, true);
@@ -73,7 +73,7 @@
             },
             yAxis: {
                 title: {
-                    text: '单位：M'
+                    text: '单位：'
                 },
                 plotLines: [{
                     value: 0,
@@ -102,9 +102,9 @@
                             time = (new Date()).getTime(),
                             i;
 
-                    for (i = -19; i <= 0; i++) {
+                    for (i = -499; i <= 0; i++) {
                         data.push({
-                            x: time + i * 1000,
+                            x: time + i * 20,
                             y: Math.random()
                         });
                     }

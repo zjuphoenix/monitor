@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.zju.als.monitor.guardian.dao")
+@MapperScan({"com.zju.als.monitor.guardian.dao","com.zju.als.monitor.artificialliver.dao"})
 public class DBConfig {
     /**
      * SpringApplication will load properties from application.properties files in the following locations and add them to the Spring Environment:
