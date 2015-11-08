@@ -1,9 +1,10 @@
 package com.edu.zju.lab508.artificialliver.monitor;
 
-import com.edu.zju.lab508.artificialliver.monitor.dao.GuardianMapper;
-import com.edu.zju.lab508.artificialliver.monitor.dao.PressureMapper;
-import com.edu.zju.lab508.artificialliver.monitor.dao.PumpSpeedMapper;
-import com.edu.zju.lab508.artificialliver.monitor.domain.PressureData;
+import com.zju.als.monitor.MonitorApplication;
+import com.zju.als.monitor.artificialliver.dao.ArtificialLiverMapper;
+import com.zju.als.monitor.artificialliver.domain.PressureData;
+import com.zju.als.monitor.guardian.dao.GuardianMapper;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,12 @@ public class DBTest {
     @Autowired
     private GuardianMapper guardianMapper;
     @Autowired
-    private PressureMapper pressureMapper;
-    @Autowired
-    private PumpSpeedMapper pumpSpeedMapper;
+    ArtificialLiverMapper artificialLiverMapper;
     @Test
     public void test(){
         //guardianMapper.insert(new GuardianData("1","1",new Date().getTime(),"75","116","73","97"));
         //System.out.println(guardianMapper.getAfterGuardianDatas("1",(long)20));
         //System.out.println(guardianMapper.getHeartRateDatas("1"));
-        pressureMapper.insert(new PressureData("1","1",new Date().getTime(),"123","123","123","123","123","123"));
+    	artificialLiverMapper.insert(new PressureData("1","1",new Date().getTime(),"123","123","123","123","123","123"));
     }
 }
