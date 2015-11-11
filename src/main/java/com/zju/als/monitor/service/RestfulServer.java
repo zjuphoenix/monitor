@@ -3,6 +3,7 @@ package com.zju.als.monitor.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.itextpdf.text.DocumentException;
+import com.zju.als.monitor.entity.ResponseEntity;
 import com.zju.als.monitor.guardian.DataCenter;
 import com.zju.als.monitor.guardian.model.data.ECG;
 import com.zju.als.monitor.reporter.Surgeryinfo;
@@ -12,6 +13,7 @@ import com.zju.als.monitor.sync.SyncService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,15 +66,13 @@ public class RestfulServer {
     }
 
     @RequestMapping(value = "/ecg")
-    public ECG ecg(@RequestParam("surgery_no") String surgery_no){
-        /*ECG ecg = new ECG();
-        Random random = new Random();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 500; j++) {
-                ecg.ecg[i][j]=(short)random.nextInt(255);
-            }
+    public ResponseEntity<ECG> ecg(@RequestParam("surgery_no") String surgery_no){
+        ECG ecg = dataCenter.getECG(surgery_no);
+        if (ecg == null){
+            return new ResponseEntity<ECG>(ecg, HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
-        return ecg;*/
-        return dataCenter.getECG(surgery_no);
+        else{
+            return new ResponseEntity<ECG>(ecg, HttpStatus.OK.value());
+        }
     }
 }

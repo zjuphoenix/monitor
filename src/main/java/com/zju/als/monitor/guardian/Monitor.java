@@ -31,7 +31,7 @@ public class Monitor {
         this.dataEventListener = dataEventListener;
         //socket = new Socket(env.getProperty("monitor.url"),Integer.parseInt(env.getProperty("monitor.port")));
         socket = new Socket(host, port);
-        isStop = true;
+        isStop = false;
         logger.info("连接设备成功");
         bos = new BufferedOutputStream(socket.getOutputStream());
         executor = Executors.newSingleThreadExecutor();
@@ -56,7 +56,8 @@ public class Monitor {
                         if (bis.available() > 3) {
                             bis.read(head, 0, head.length);
                             type = head[0] & 0xff;
-                            length = ((head[2] & 0xff) << 8) + (head[1] & 0xff);
+                            length = ((head[1] & 0xff) << 8) + (head[2] & 0xff);
+                            logger.info("data length:"+length);
                             byte[] data = new byte[length];
                             while (bis.available() < length) {
                                 try {
