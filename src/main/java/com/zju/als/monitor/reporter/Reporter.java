@@ -99,11 +99,11 @@ public class Reporter extends Document {
         this.open();
     }
 
-    public InputStream getReporterPdf(Surgeryinfo surgeryinfo, List<Scheme> schemes)
+    public File getReporterPdf(Surgeryinfo surgeryinfo, List<Scheme> schemes)
             throws DocumentException, ParseException, IOException {
         this.init(surgeryinfo,schemes);
         this.publish();
-        return new FileInputStream("./" + surgeryNo + surgeryinfo.getPatientName()
+        return new File("./" + surgeryNo + surgeryinfo.getPatientName()
                 + surgeryinfo.getTime() + ".pdf");
     }
     /**
