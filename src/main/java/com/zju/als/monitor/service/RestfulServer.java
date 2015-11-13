@@ -10,21 +10,17 @@ import com.zju.als.monitor.reporter.Surgeryinfo;
 import com.zju.als.monitor.reporter.Reporter;
 import com.zju.als.monitor.reporter.Scheme;
 import com.zju.als.monitor.sync.SyncService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Administrator on 2015/11/3.
@@ -36,6 +32,8 @@ public class RestfulServer {
     private SyncService syncService;
     @Resource
     private DataCenter dataCenter;
+    @Resource
+    private Reporter reporter;
 
     @RequestMapping("/reporter")
     public String reporter(){
@@ -47,10 +45,8 @@ public class RestfulServer {
         Surgeryinfo operation = gson.fromJson(operationInfo,Surgeryinfo.class);
         List<Scheme> schemes = gson.fromJson(schemestr, new TypeToken<List<Scheme>>() {
         }.getType());
-        Reporter reporter = null;
         try {
-            reporter = new Reporter(operation, schemes);
-            return reporter.getReporterPdf();
+            return reporter.getReporterPdf(operation, schemes);
         } catch (DocumentException e) {
             logger.error("DocumentException", e);
         } catch (IOException e) {

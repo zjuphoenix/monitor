@@ -30,11 +30,9 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.context.annotation.Scope;
 import java.awt.Font;
-
 import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -48,6 +46,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/4.
  */
+@Scope("prototype")
+@org.springframework.stereotype.Component
 public class Reporter extends Document {
     public static final double HIGHBLOODTHRESHHODL = 2;
     public static final double LOWBLOODTHRESHHOLD = 1;
@@ -65,7 +65,7 @@ public class Reporter extends Document {
 
     @Autowired
     PumpSpeedMapper pumpSpeedDataMapper;
-    //@Autowired
+    @Autowired
     PressureMapper pressureDataMapper;
     @Autowired
     private GuardianMapper guardianMapper;
@@ -75,8 +75,11 @@ public class Reporter extends Document {
 
     }
 
-    public Reporter(Surgeryinfo surgeryinfo, List<Scheme> schemes) throws DocumentException, IOException {
+    public Reporter(){
         super(PageSize.A4, 50, 50, 50, 50);
+    }
+
+    public void init(Surgeryinfo surgeryinfo, List<Scheme> schemes) throws DocumentException, IOException {
         this.surgeryinfo = surgeryinfo;
         this.schemes = schemes;
         this.surgeryNo = surgeryinfo.getSurgeryNo();
@@ -96,8 +99,9 @@ public class Reporter extends Document {
         this.open();
     }
 
-    public InputStream getReporterPdf()
+    public InputStream getReporterPdf(Surgeryinfo surgeryinfo, List<Scheme> schemes)
             throws DocumentException, ParseException, IOException {
+        this.init(surgeryinfo,schemes);
         this.publish();
         return new FileInputStream("./" + surgeryNo + surgeryinfo.getPatientName()
                 + surgeryinfo.getTime() + ".pdf");
@@ -499,7 +503,8 @@ public class Reporter extends Document {
         schemes.add(new Scheme("阶段2", "2015-03-04 11:39:30 "));
         schemes.add(new Scheme("stop ", "2015-03-04 11:39:38"));
 
-        Reporter report = new Reporter(new Surgeryinfo("张三", "男", "20",
+        Reporter report = new Reporter();
+        report.init(new Surgeryinfo("张三", "男", "20",
                 "方法一", "王医生", "1", "2015-03-08 12:00", "120"), schemes);
         report.publish();
         System.out.println("finished");
