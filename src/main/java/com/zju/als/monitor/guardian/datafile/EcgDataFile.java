@@ -37,6 +37,18 @@ public class EcgDataFile implements DataFile{
         }
     }
 
+    /**
+     * 心电数据格式：
+     * head 3字节：head[0]=1,head[1]=(byte)((3513&0xff00)>>8),head[2]=(byte)(3513&0xff);
+     * datahead 3字节：datahead[0]=1,datahead[1]=(byte)(3510&0xff00)>>8,datahead[2]=(byte)(3510&0xff);
+     * breathingrate 2字节：breathingrate[0]=(byte)((60&0xff00)>>8),breathingrate[1]=(byte)(60&0xff);
+     * st 6字节： {0,0,0,0,0,0};
+     * heartrate 2字节：heartrate[0]=(byte)((83&0xff00)>>8),heartrate[1]=(byte)(83&0xff);
+     * ecg 3000字节：每个数据点2个字节，每个导联500数据点，一共3个导联;
+     * flag 500字节;
+     * data不包含head，从datahead开始，长度为3513字节
+     * @param data
+     */
     @Override
     public void save(byte[] data) {
         out.put(data);
