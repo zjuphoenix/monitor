@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 @Controller
 public class IndexController {
 
-    @RequestMapping("/index")
+    @RequestMapping("/index")//http://localhost:8888/index
     public ModelAndView index(){
         return new ModelAndView("index");
     }

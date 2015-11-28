@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Administrator on 2015/11/4.
  */
-public class Monitor {
+public class    Monitor {
     private Logger logger = LoggerFactory.getLogger(Monitor.class);
     private Socket socket;
     private BufferedOutputStream bos;

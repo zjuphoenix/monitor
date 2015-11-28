@@ -2,6 +2,7 @@ package com.zju.als.monitor.guardian.datafile;
 
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class DataFileCenter {
+    @Resource
+    private EcgDataFileFactory ecgDataFileFactory;
     Map<String,EcgDataFile> ecgDataFileMap = new ConcurrentHashMap<>();
     public void createEcgDataFile(String surgery_no){
-        EcgDataFile ecgDataFile = new EcgDataFile(surgery_no);
+        EcgDataFile ecgDataFile = ecgDataFileFactory.newInstance(surgery_no);
         ecgDataFileMap.put(surgery_no, ecgDataFile);
     }
 

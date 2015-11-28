@@ -27,6 +27,6 @@ public class EcgDataHandler implements DataHandler{
         ECG ecg = (ECG)ecgResolver.resolve(data, length);
         System.out.println(ecg);
         dataCenter.addECG(surgery_no,ecg);
-        dataFileCenter.writeEcg(surgery_no, data);
+        dataFileCenter.writeEcg(surgery_no, data);//测试写文件，绝对路径
     }
 }

@@ -25,7 +25,7 @@ public class AdminServer {
     @Autowired
     private DataCenter dataCenter;
 
-    @RequestMapping("/start")
+    @RequestMapping("/start")//http://localhost:8888/start?surgery_no=123&host=10.13.81.181&port=60129
     public ResponseEntity<String> start(@RequestParam("surgery_no")String surgery_no, @RequestParam("host")String host, @RequestParam("port")int port){
         try {
             monitorCenter.createMonitor(surgery_no, host, port);

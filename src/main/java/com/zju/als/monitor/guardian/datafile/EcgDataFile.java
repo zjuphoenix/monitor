@@ -1,9 +1,14 @@
 package com.zju.als.monitor.guardian.datafile;
 
+import com.zju.als.monitor.config.FilePathConfig;
+import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -20,10 +25,11 @@ public class EcgDataFile implements DataFile{
     private MappedByteBuffer out;
     private String surgery_no;
 
-    public EcgDataFile(String surgery_no) {
+    public EcgDataFile(String surgery_no, FilePathConfig filePathConfig) {
         this.surgery_no = surgery_no;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        File file = new File(surgery_no+"_ecg_"+sdf.format(new Date()));
+        filePathConfig.readXMLFile();
+        File file = new File(filePathConfig.getEcgFilePath() + surgery_no + "_ecg_"+sdf.format(new Date()));
         try {
             if (!file.exists()){
                 file.createNewFile();
