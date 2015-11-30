@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,9 @@ import java.util.Date;
  */
 public class EcgDataFile implements DataFile{
     private Logger logger = LoggerFactory.getLogger(EcgDataFile.class);
-    private MappedByteBuffer out;
+//    private MappedByteBuffer out;
+    private ByteBuffer buf;
+    private  FileChannel fc;
     private String surgery_no;
 
     public EcgDataFile(String surgery_no, FilePathConfig filePathConfig) {
@@ -33,11 +37,13 @@ public class EcgDataFile implements DataFile{
         try {
             if (!file.exists()){
                 file.createNewFile();
+                new FileOutputStream(file).write(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()).getBytes());
             }
             // 为了以可读可写的方式打开文件，这里使用RandomAccessFile来创建文件。
-            FileChannel fc = new RandomAccessFile(file, "rw").getChannel();
-            //注意，文件通道的可读可写要建立在文件流本身可读写的基础之上
-            out = fc.map(FileChannel.MapMode.READ_WRITE, 0, 4*1024*1024);
+            fc = new RandomAccessFile(file, "rw").getChannel();
+//            //注意，文件通道的可读可写要建立在文件流本身可读写的基础之上
+//            out = fc.map(FileChannel.MapMode.READ_WRITE, 0, 4*1024*1024);
+            buf = ByteBuffer.allocate(3513);
         } catch (IOException e) {
             logger.error("io exception", e);
         }
@@ -57,7 +63,18 @@ public class EcgDataFile implements DataFile{
      */
     @Override
     public void save(byte[] data) {
-        out.put(data);
+        buf.clear();
+        buf.put(data);
+        buf.flip();
+        //        buf.wrap(data);
+        while(buf.hasRemaining()) {
+            try {
+                fc.position(fc.size());
+                fc.write(buf);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
