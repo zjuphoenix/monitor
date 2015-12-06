@@ -97,6 +97,10 @@ public class EcgDataFile implements DataFile{
 
     @Override
     public void close() {
-
+        try {
+            fc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

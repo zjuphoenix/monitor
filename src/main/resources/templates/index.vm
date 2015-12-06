@@ -26,7 +26,7 @@
                                 dataType:'json',
                                 timeout:60000,
                                 data:{
-                                    surgery_no:'123'
+                                    'surgery_no':'$surgery_no'
                                 },
                                 success:function(res){
                                     if(!jQuery.isEmptyObject(res.body)){

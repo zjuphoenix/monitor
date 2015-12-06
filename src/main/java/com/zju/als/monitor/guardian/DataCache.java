@@ -23,7 +23,7 @@ public class DataCache {
     }
 
     public void addECG(ECG ecg){
-        if (!ecgs.add(ecg)){
+        if (!ecgs.offer(ecg)){
             try {
                 ecgs.poll(1, TimeUnit.SECONDS);
             } catch (InterruptedException e) {

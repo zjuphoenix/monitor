@@ -20,6 +20,7 @@ public class DataFileCenter {
     }
 
     public void stopEcgDataFile(String surgery_no){
+        ecgDataFileMap.get(surgery_no).close();
         ecgDataFileMap.remove(surgery_no);
     }
 
