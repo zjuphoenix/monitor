@@ -20,7 +20,8 @@ public class FilePathConfig {
 
     public void readXMLFile(){
         SAXReader reader = new SAXReader();
-        File file = new File("config.xml");
+        File file = new File("/root/HealthMonitor/config/config.xml");
+        System.out.println(file.getAbsolutePath());
         Document document = null;
         try {
             document = reader.read(file);
